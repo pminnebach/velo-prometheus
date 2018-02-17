@@ -30,6 +30,15 @@ $ docker build -t velo .
 $ docker run -d -p 8080:8080 velo
 ````
 
+In your prometheus configuration, add the following to `scrape_configs:`
+
+````
+  - job_name: 'velo'
+    scrape_interval: 10s
+    static_configs:
+      - targets: ['<url/ip>:8080']
+````
+
 ## Todo
 
 - [ ] Make Dockerfile GOARCH independent.
