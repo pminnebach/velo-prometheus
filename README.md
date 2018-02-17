@@ -9,7 +9,7 @@ And because statistics are awesome.
 Run local
 
 ````
-go build -o velo
+$ go build -o velo
 ````
 
 ````
@@ -33,8 +33,10 @@ $ docker run -d -p 8080:8080 velo
 ## Todo
 
 - [ ] Make Dockerfile GOARCH independent.
-- [ ] Remove Resty dependency
+- [ ] Remove Resty dependency.
 - [ ] Add fancy CLI flags. (Cobra?)
+- [ ] Add graceful shutdown.
+- [ ] Add error handeling where necessary.
 
 ## Contributing
 
