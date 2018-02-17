@@ -1,0 +1,14 @@
+[
+    {
+        "id":"001",
+        "lon":"4.420650000000000000",
+        "lat":"51.217820000000000000",
+        "bikes":"0",
+        "slots":"31",
+        "zip":"2018",
+        "address":"Koningin Astridplein",
+        "status":"OPN",
+        "name":"001- Centraal Station - Astrid",
+        "stationType":"BIKE"
+    }
+]

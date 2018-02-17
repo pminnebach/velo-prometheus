@@ -26,6 +26,7 @@ func init() {
 }
 
 // Station holds all the data that a single station has.
+// See Station.json for how the original looks like.
 type Station struct {
 	ID             string `json:"id"`
 	District       string `json:"-"`
@@ -82,6 +83,7 @@ func (v *VeloManager) GetStations() (bikesByStation map[string]int, slotsByStati
 		slots := Stations[idx].Slots
 		name := Stations[idx].Name
 
+		// Convert json string to int.
 		iBikes, err := strconv.Atoi(bike)
 		if err != nil {
 			log.Printf("Error strconv bike: %v", err)
@@ -98,12 +100,6 @@ func (v *VeloManager) GetStations() (bikesByStation map[string]int, slotsByStati
 
 	end := time.Now()
 	log.Printf("Duration: %v", end.Sub(start))
-
-	// bikesByStation["045-Falconplein"] = 12
-	// bikesByStation["046-Somewhere"] = 14
-
-	// slotsByStation["045-Falconplain"] = 8
-	// slotsByStation["046-Somewhere"] = 6
 
 	return
 }
@@ -162,6 +158,7 @@ func main() {
 	flag.Parse()
 
 	log.Printf("Pushing metrics on port: %v", *addr)
+
 	// Expose the registered metrics via HTTP.
 	http.Handle("/metrics", promhttp.Handler())
 	log.Fatal(http.ListenAndServe(*addr, nil))

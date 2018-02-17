@@ -41,3 +41,6 @@ $ docker run -d -p 8080:8080 velo
 ## Contributing
 
 Send PR.
+
+## Disclaimer
+I'm not a professional developer.
