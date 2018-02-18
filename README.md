@@ -47,9 +47,17 @@ In your prometheus configuration, add the following to `scrape_configs:`
 - [ ] Add graceful shutdown.
 - [ ] Add error handeling where necessary.
 
+## Next
+
+To build upon this i want something that can use those metrics to suggest me which station i should go to for getting or putting back a bike. 
+This based on my current location (home or work).
+
+Or maybe in the future by placing a marker on a map and it figures out which stations is the closest based on lat/lon, and suggests nearby stations if the chosen one is full or empty.
+
 ## Contributing
 
 Send PR.
 
 ## Disclaimer
+
 I'm not a professional developer.
