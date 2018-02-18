@@ -44,13 +44,14 @@ type Station struct {
 
 // VeloManager is what does a .
 type VeloManager struct {
-	City      string // Not realy necessary. Might only be usefull if another city uses the exact same infrastructure from ClearChanel.
-	BikesDesc *prometheus.Desc
-	SlotsDesc *prometheus.Desc
+	City         string // Not realy necessary. Might only be usefull if another city uses the exact same infrastructure from ClearChanel.
+	BikesDesc    *prometheus.Desc
+	SlotsDesc    *prometheus.Desc
+	DurationDesc *prometheus.Desc
 }
 
 // GetStations calls the velo api and converts the json to whatever prometheus can handle.
-func (v *VeloManager) GetStations() (bikesByStation map[string]int, slotsByStation map[string]int) {
+func (v *VeloManager) GetStations() (bikesByStation map[string]int, slotsByStation map[string]int, duration float64) {
 
 	start := time.Now()
 
@@ -99,6 +100,7 @@ func (v *VeloManager) GetStations() (bikesByStation map[string]int, slotsByStati
 	}
 
 	end := time.Now()
+	duration = float64(end.Sub(start))
 	log.Printf("Duration: %v", end.Sub(start))
 
 	return
@@ -108,13 +110,14 @@ func (v *VeloManager) GetStations() (bikesByStation map[string]int, slotsByStati
 func (v *VeloManager) Describe(ch chan<- *prometheus.Desc) {
 	ch <- v.BikesDesc
 	ch <- v.SlotsDesc
+	ch <- v.DurationDesc
 }
 
 // Collect first triggers the GetStations. Then it creates the guages
 // for each station on the fly based on the returned data.
 func (v *VeloManager) Collect(ch chan<- prometheus.Metric) {
 
-	bikesByStation, slotsByStation := v.GetStations()
+	bikesByStation, slotsByStation, duration := v.GetStations()
 
 	for station, bikesCount := range bikesByStation {
 		ch <- prometheus.MustNewConstMetric(
@@ -133,6 +136,13 @@ func (v *VeloManager) Collect(ch chan<- prometheus.Metric) {
 			station,
 		)
 	}
+
+	ch <- prometheus.MustNewConstMetric(
+		v.DurationDesc,
+		prometheus.GaugeValue,
+		float64(duration),
+		"time",
+	)
 }
 
 // NewVeloManager creates the two Descs BikesDesc and SlotsDesc.
@@ -149,6 +159,12 @@ func NewVeloManager(city string) *VeloManager {
 			"velo_available_slots",
 			"Number of free slots available at a given station.",
 			[]string{"station"},
+			prometheus.Labels{"city": city},
+		),
+		DurationDesc: prometheus.NewDesc(
+			"velo_http_get_duration",
+			"The time it took to get json from Velo and process it.",
+			[]string{"time"},
 			prometheus.Labels{"city": city},
 		),
 	}
