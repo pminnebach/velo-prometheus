@@ -50,3 +50,6 @@ _testmain.go
 
 # Some debug artifact from Delve
 debug
+
+# Private stuff.
+private.md
