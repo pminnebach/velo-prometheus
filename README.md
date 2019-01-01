@@ -6,7 +6,7 @@ And because statistics are awesome.
 
 ## Usage
 
-Run local
+### local
 
 ````
 $ go build -o velo
@@ -20,10 +20,7 @@ Usage of ./velo:
         The address to listen on for HTTP requests. (default ":8080")
 ````
 
-Or as a docker container. 
-I created this to run on a raspberry pi. So first change the GOARCH in the Dockerfile to the desired platform.
-
-Port 8080 is exposed by default. To change this, add the `-listen-address [port]` parameter
+### Docker
 
 ````
 $ docker build -t velo .
@@ -44,12 +41,11 @@ In your prometheus configuration, add the following to `scrape_configs:`
 - [ ] Make Dockerfile GOARCH independent.
 - [ ] Remove Resty dependency.
 - [ ] Add fancy CLI flags. (Cobra?)
-- [ ] Add graceful shutdown.
 - [ ] Add error handeling where necessary.
 
 ## Next
 
-To build upon this i want something that can use those metrics to suggest me which station i should go to for getting or putting back a bike. 
+To build upon this i want something that can use those metrics to suggest me which station i should go to for getting or putting back a bike.
 This based on my current location (home or work).
 
 Or maybe in the future by placing a marker on a map and it figures out which stations is the closest based on lat/lon, and suggests nearby stations if the chosen one is full or empty.
